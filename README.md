@@ -15,7 +15,7 @@ Python ver. : 3.10.12
 > Modules:
 > os
 > pyautogui
-> screen info
-> ARROW
+> screeninfo
+> PIL
 > numpy
 > imageio
