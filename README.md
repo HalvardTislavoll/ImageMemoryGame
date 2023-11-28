@@ -6,7 +6,7 @@ The name is a Norwegian expression for farming game for children.
 
 
 The program is a test of my knowledge of Python and the use of Page.
-PAGE is a Python Automated GUI Generator
+PAGE is a Python Automated GUI Generator. I use a future PAGE version 8.0D
 
 
 
