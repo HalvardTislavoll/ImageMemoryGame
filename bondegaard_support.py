@@ -7,6 +7,8 @@
 #    Nov 24, 2023 05:12:09 PM CET  platform: Linux
 #    Nov 24, 2023 07:25:39 PM CET  platform: Linux
 #    Nov 25, 2023 03:11:02 PM CET  platform: Linux
+#    Nov 28, 2023 11:35:11 PM CET  platform: Linux
+#    Nov 29, 2023 12:28:14 AM CET  platform: Linux
 
 '''  ToDo:
 
@@ -24,12 +26,13 @@
 [ ]     - lag to sett bilder, eit på 660x660 + eit på 200x200
 [ ]     - plaser to set bilder og tekst i to dict'er
 [ ]     - plaser brukeren si  dict på spilebrettet med tilhøyrende bakgrunnsfarge
-[ ] - bruk pillow og lag overgangsgif ved trykk på eit memo kort (bakside mot fremside)
+[x] - bruk pillow og lag overgangsgif ved trykk på eit memo kort (bakside mot fremside)
 [ ] - lag ein dict med bildutvlget i random rekjefølge      
 '''
     
 import sys
 import tkinter as tk
+from tkinter import font
 import tkinter.ttk as ttk
 from tkinter.constants import *
 
@@ -51,16 +54,26 @@ if os.path.isfile(f"{module_name}.py"):
 else:
     print(f"File '{module_name}.py' does not exist. Failed to import the module.")
 sh=importlib   # sh is alias shared for short
-#-----------------------------------------------place_toplevel()------------
-import pyautogui
-from screeninfo import get_monitors
+#-----------------------------------------------------------
+
+# Add some modules from the Python Module Index:
 from tkinter.messagebox import _show
 from time import time   # time function used to calculate time
 import datetime
-
-from PIL import Image
-import numpy as np
-import imageio
+# Add somme External Modules from pypi.org using pip install ... :
+try:
+    import pyautogui
+    from screeninfo import get_monitors
+    from PIL import Image
+    import numpy as np
+    import imageio
+except:
+    print('Sorry, you must import this modules: (my ver.)')
+    print('PyAutoGUI                 0.9.54')
+    print('screeninfo                0.8.1')
+    print('Pillow                    10.1.0')
+    print('numpy                     1.26.2')
+    print('imageio                   2.33.0')
 
 location=bondegaard._location
 _debug = True # False to eliminate debug printing from callback functions.
@@ -81,6 +94,7 @@ def startup():
     _top1.title("Bondegårdslotto")
     place_toplevel()
     menu_state(False)
+    _w1.Frame3.lower()
     _w1.TBtnExit.configure(text='''Avslutt''')
     root.bind("<Key-Control_L><Key-Alt_L><Key-m>", lambda e: menu_state(e))   # to activate menu
     give_sysem_info()
@@ -126,7 +140,7 @@ def menu_state(e):
         _w1.menubar.entryconfig("File", state="disabled")
 
 def init():
-    global canvas, canvas_right, canvas_left, _img, timer_id, Label, thisPath, imList 
+    global canvas, canvas_right, canvas_left, _img, timer_id, Label, thisPath, imList, userDict 
     canvas_left=_w1.Canvas0    # left canvas
     canvas_right=_w1.Canvas1   # right canvas
     canvas =_w1.Canvas2_8   # test canvas
@@ -134,7 +148,32 @@ def init():
 
     thisPath="./assets/lotto_graphics/"
     imList=["4-8thumb.png","init_bakside.png", "test.gif"]
-    
+    '''userDict stubb:
+       [
+        o:active=False/True, 
+        # correct findings
+        1:im1=False, 2:im2=False, 3:im3=False, 
+        4:im4=False, 5:im5=False, 6:im6=False, 
+        7:im7=False, 8:im8=False, 9:im9=False,
+        #random genererte images 
+        10:image1=str, 11:image2=str, 12:image3=str, 
+        13:image4=str, 14:image5=str, 15:image6=str, 
+        16:image7=str, 17:image8=str, 18:image9=str
+        # when is the card solved 
+        19:timestamp, 20:timestamp, 21:timestamp,
+        22:timestamp, 23:timestamp, 24:timestamp,
+        25:timestamp, 26:timestamp, 27:timestamp,] }
+    '''
+    userDict={'user1':[ False, 
+                        False, False, False,
+                        False, False, False,
+                        False, False, False,
+                        "", "", "", 
+                        "", "", "", 
+                        "", "", "",
+                        "", "", "", 
+                        "", "", "", 
+                        "", "", ""] }
     Label=_w1.TLbl_Time
     Label.configure(text="")
     init_imagelist()
@@ -386,7 +425,37 @@ def test_fill_game_board():
     _w1.Canvas1.configure(relief="solid")
 
 def init_user():
-    canvas_image(2)   #set first image on canvas (midlertidig)
+    global userDict
+    textbox=_w1.Scrolledtext1
+    myFont = font.Font(family="Times New Roman", size=20)
+
+    _w1.Frame3.lift()
+    _w1.TLblHeading.configure(text="BONDEGÅRDSLOTTO")
+
+    instructions='''
+    Bildene har bondegårdtema og de vil dukke opp
+    på høyre side, eit om gangen.
+    På venstre side får hver spiller 9 tilfeldige kort. 
+    Spørsmåltegnene er baksiden på kortene. 
+    For å sjekke eit kort må kortet velges ved å
+    trykke venstre tast på musen på kortet. 
+    Da vil bildet på kortet vises i tre sekunder. 
+    Dersom kortet er likt det på høyre side vil kortet
+    forbli åpent. Kortet er funnet. 
+    Valg av kort går på rundgang mellom spillerene. 
+    Den brukeren som først har åpnet alle kortene sine 
+    har vunnet! Hver spiller får egen farge på brettet.
+
+    Nedenfor må brukerene registrere seg med namn.
+    '''
+    
+    textbox.configure(font=myFont)
+
+    textbox.configure(wrap="word")
+    textbox.delete(1.0, "end")   # clear text
+    textbox.insert('end', instructions)
+    
+    #canvas_image(2)   #set first image on canvas (midlertidig)
 
 #----------------------------------
 #    Callbacks section
@@ -441,8 +510,24 @@ def on_TBtnExit(*args):
 #----------------------------------
 #    Program section
 #----------------------------------
+
+def on_TBtnRegUser(*args):
+    if _debug:
+        print('bondegaard_support.on_TBtnRegUser')
+        for arg in args:
+            print ('    another arg:', arg)
+        sys.stdout.flush()
+
+def on_TBtnPlay(*args):
+    if _debug:
+        print('bondegaard_support.on_TBtnPlay')
+        for arg in args:
+            print ('    another arg:', arg)
+        sys.stdout.flush()
+
 if __name__ == '__main__':
     bondegaard.start_up()
+
 
 
 
