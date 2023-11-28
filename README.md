@@ -21,8 +21,8 @@ File:
 Modules:   (use pip install ..)
     os
     pyautogui
-    screen info
-    ARROW
+    screeninfo
+    PIL
     numpy
     imageio
 ```
