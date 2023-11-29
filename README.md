@@ -1,4 +1,4 @@
-# memory game
+# Image Memory Game
 
 'bondegaard' is a children's game
 The name is a Norwegian expression for farm
