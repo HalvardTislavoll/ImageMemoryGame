@@ -1,0 +1,17 @@
+bondelotto.txt
+
+forslag:
+
+fire brett à 9 bilder
+ein bunke med random bilder fra aktuelle brett 9-18-27-36 bilder
+plukk eit brett .. x4
+brettet inneholder p kort med baksiden opp
+trekk bilde fra bunken
+finn bildet på brettet ditt, eit forsøk .. legg på dersom rett, ellers snu kortet igjen
+første med alle bildene på brettet rett vei har vunnet
+
+ein spiller om gangen på skjermen de andre vises i miniatyr?
+
+bilder 706x709
+       705x708
+       708x710
