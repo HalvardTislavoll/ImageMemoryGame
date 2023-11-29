@@ -154,9 +154,9 @@ def center_toplevel(window, wid, hei, screen_number):
 
 def menu_state(e):
     if e:
-        _w1.menubar.entryconfig("File", state="normal")
+        _w1.menubar.entryconfig("H", state="normal")
     else:
-        _w1.menubar.entryconfig("File", state="disabled")
+        _w1.menubar.entryconfig("H", state="disabled")
 
 def init():
     global canvas, canvas_right, canvas_left, _img, timer_id, Label, thisPath, imList, userDict 
@@ -449,7 +449,6 @@ def set_background():   # make a canvas liste
     _w1.Canvas2_9.create_image((105, 105), image=_img69, anchor='center')   # remember x,y is center of image
 
 def test_fill_game_board():
-    print(sh.player1_color)
     _w1.Frame2.configure(background=sh.player1_color)
     set_fremside()
     set_background()
@@ -487,6 +486,9 @@ def init_user():
 
     #_w1.Frame2.configure(background=sh.player1_color)
     #canvas_image(2)   #set first image on canvas (midlertidig)
+
+    style= ttk.Style()
+    style.configure("TEntry", fieldbackground=sh.player1_color)
 
 #----------------------------------
 #    Callbacks section
