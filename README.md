@@ -1,14 +1,18 @@
 # Image Memory Game
 
-'bondegaard' is a children's game
-The name is a Norwegian expression for farm
+'bondegaard' is a children's game.
+
+The name is a Norwegian expression for farm. 
+
+It is all about memorization images.
 
 ---
 
-The program is a test of my knowledge of Python and the use of PAGE. \n
+This program is the use of my python knowledge and PAGE.
 
-PAGE is a Python Automated GUI Generator. \n
-I use a future PAGE version 8.0D \n
+PAGE is a Python Automated GUI Generator.
+
+eremark: I use a future version, PAGE version 8.0D
 
 ```tex
 per 2023-11-28
