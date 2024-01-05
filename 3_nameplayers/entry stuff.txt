@@ -1,0 +1,55 @@
+_w4.entryPassword_Login.configure(show='*')
+
+_w4.entryPassword_Login.configure(state='disabled')
+
+ _w4.entryUser_Login.focus_force()
+
+_w4.entryUser_Login.bind('<Return>', formUser_on_name_check) and \
+_w4.entryUser_Login.bind('<Tab>', formUser_on_name_check)
+
+_w4.entryPassword_Login.bind('<ISO_Left_Tab>', lambda e: back_to_entryUser(e))   # add="+"
+
+
+    _w4.entryUser_Login.delete(0, END)
+    _w4.entryPassword_Login.delete(0, END)
+    #_w4.entryPassword_Login.config(takefocus=0)   # make focus() enable
+    _w4.entryPassword_Login.configure(state='disabled')
+    _w4.entryUser_Login.tk_focusNext().focus_set()
+    _w4.entryUser_Login.config(takefocus=1)
+
+
+    # ddeactivate login button
+    _w4.btnLogIn_Login.unbind('<Return>')   # 
+    _w4.btnLogIn_Login.unbind('<Button-1>')
+    _w4.btnLogIn_Login.configure(state='disabled')
+    # clear earlier attempt
+    _w4.entryPassword_Login.delete(0, END)
+
+    _w4.btnLogIn_Login.configure(takefocus=0)   # make focus() enable
+    _w4.entryPassword_Login.focus_force()   # focus_force() vs. .focus_set()
+
+    '''Clears all display and entry widgets'''
+    _w8.EntryUser_UserMaint.set('')
+    _w8.EntryPwd_UserMaint.set('')
+
+
+    _w8.EntryUser_UserMaint.set(displaydata[1])
+    _w8.EntryPwd_UserMaint.set(enc(displaydata[3]))
+
+
+usernam = _w4.entryUser.get()
+
+_w4.entryUser_Login.delete(0, END)
+
+        _w4.entryUser_Login.configure(takefocus=0)   # make focus() enable
+        _w4.entryPassword_Login.config(state='normal')
+        _w4.entryPassword_Login.focus_force()
+
+
+def tab_order():
+    """changing Tab Order Of Widgets, by G.D. Walters""" 
+    # http://thedesignatedgeek.xyz/python/tkinter/page/gui/tab%20order/
+    # 2018/07/04/Changing_Tab_Order_Of_Widgets.html
+    widgets=[_w4.entryUser_Login, _w4.entryPassword_Login, _w4.btnLogIn_Login]
+    for wl in widgets:
+        wl.lift()

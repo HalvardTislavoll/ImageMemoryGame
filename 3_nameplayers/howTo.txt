@@ -1,0 +1,8 @@
+senter form on screen
+
+write programinfo into Terminal (inkl.startuptime)
+
+Use it's own frame to input usernames (.lift() afterwards)
+
+Make an exitbutton
+Remove temp file (share) at exit button (cleanup and display time used)
